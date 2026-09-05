@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description"
-          content="Portfolio2 - Ayush Chatterjee's personal portfolio and JavaScript To-Do List application.">
-    <meta name="author" content="Ayush Chatterjee">
-    <meta name="keywords"
-          content="Ayush Chatterjee, Electrical Engineering, Web Development, JavaScript, Portfolio">
+    <meta
+        name="description"
+        content="Portfolio2 - Personal portfolio of Ayush Chatterjee, B.Tech Electrical Engineering student and web developer."
+    >
 
-    <title>Portfolio2 | Ayush Chatterjee</title>
+    <title>Ayush Chatterjee | Portfolio</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -20,9 +19,9 @@
 <header class="site-header">
     <div class="container nav-container">
 
-        <a href="index.html" class="brand" aria-label="Portfolio2 Home">
+        <a href="index.html" class="brand" aria-label="Ayush Chatterjee Home">
             <span class="brand-logo">AC</span>
-            <span>Portfolio2</span>
+            <span>Ayush Chatterjee</span>
         </a>
 
         <button
@@ -31,18 +30,17 @@
             type="button"
             aria-label="Open navigation menu"
             aria-expanded="false"
-            aria-controls="mainNav">
+            aria-controls="mainNav"
+        >
             ☰
         </button>
 
-        <nav id="mainNav" class="main-nav" aria-label="Main navigation">
-
+        <nav class="main-nav" id="mainNav" aria-label="Main navigation">
             <a href="index.html" class="active">Home</a>
             <a href="about.html">About</a>
             <a href="projects.html">Projects</a>
             <a href="skills.html">Skills</a>
             <a href="contact.html">Contact</a>
-
         </nav>
 
     </div>
@@ -51,308 +49,179 @@
 
 <main>
 
-<section class="hero-section">
+    <!-- Hero -->
+    <section class="hero-section">
+        <div class="container hero-grid">
 
-    <div class="container hero-grid">
+            <div class="hero-content">
 
-        <div class="hero-content">
+                <span class="eyebrow">
+                    B.Tech Student • Electrical Engineering
+                </span>
 
-            <span class="eyebrow">
-                B.Tech Student • Electrical Engineering
-            </span>
-
-            <h1>
-                Hello, I'm
-                <span>Ayush Chatterjee</span>
-            </h1>
-
-            <p>
-                I am a first-year B.Tech student passionate about
-                technology, web development, programming, and
-                innovative engineering solutions.
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="projects.html" class="btn btn-primary">
-                    View My Projects
-                </a>
-
-                <a href="contact.html" class="btn btn-secondary">
-                    Contact Me
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="hero-card">
-
-            <div class="hero-card-icon">✓</div>
-
-            <h2>Build. Learn. Innovate.</h2>
-
-            <p>
-                Combining engineering knowledge with programming
-                to create practical and user-focused digital projects.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="section">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <span class="eyebrow">Featured</span>
-
-            <h2>Welcome to My Portfolio</h2>
-
-            <p>
-                Explore my projects, technical skills and
-                interactive JavaScript application.
-            </p>
-
-        </div>
-
-
-        <div class="feature-grid">
-
-            <article class="feature-card">
-
-                <div class="feature-icon">⌘</div>
-
-                <h3>Web Development</h3>
+                <h1>
+                    Hi, I'm <span>Ayush Chatterjee</span>
+                </h1>
 
                 <p>
-                    Building responsive and user-friendly websites
-                    using modern web technologies.
+                    I am a first-year B.Tech student pursuing Electrical Engineering,
+                    with a strong interest in technology, web development, and
+                    innovative engineering solutions.
                 </p>
 
-            </article>
+                <div class="hero-buttons">
 
+                    <a href="projects.html" class="btn btn-primary">
+                        View Projects
+                    </a>
 
-            <article class="feature-card">
-
-                <div class="feature-icon">⚡</div>
-
-                <h3>Engineering</h3>
-
-                <p>
-                    Combining Electrical Engineering concepts with
-                    programming and practical problem-solving.
-                </p>
-
-            </article>
-
-
-            <article class="feature-card">
-
-                <div class="feature-icon">✓</div>
-
-                <h3>Task Management</h3>
-
-                <p>
-                    Try the interactive To-Do List below, built using
-                    JavaScript DOM manipulation and localStorage.
-                </p>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- Task 3 Application -->
-
-<section class="todo-section" aria-labelledby="todo-title">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <span class="eyebrow">JavaScript Task Manager</span>
-
-            <h2 id="todo-title">My To-Do List</h2>
-
-            <p>
-                Create, organize and manage your daily tasks.
-                Your tasks are automatically saved in your browser.
-            </p>
-
-        </div>
-
-
-        <div class="todo-app">
-
-            <div class="task-input-area">
-
-                <label for="taskInput" class="sr-only">
-                    Enter a new task
-                </label>
-
-                <input
-                    type="text"
-                    id="taskInput"
-                    placeholder="What needs to be done?"
-                    maxlength="150"
-                    autocomplete="off">
-
-                <button
-                    id="addTaskBtn"
-                    type="button">
-                    <span>+</span>
-                    Add Task
-                </button>
-
-            </div>
-
-
-            <div class="task-toolbar">
-
-                <div
-                    class="filters"
-                    role="group"
-                    aria-label="Task filters">
-
-                    <button
-                        class="filter-btn active"
-                        data-filter="all"
-                        type="button"
-                        aria-pressed="true">
-                        All
-                    </button>
-
-                    <button
-                        class="filter-btn"
-                        data-filter="active"
-                        type="button"
-                        aria-pressed="false">
-                        Active
-                    </button>
-
-                    <button
-                        class="filter-btn"
-                        data-filter="completed"
-                        type="button"
-                        aria-pressed="false">
-                        Completed
-                    </button>
+                    <a href="contact.html" class="btn btn-secondary">
+                        Contact Me
+                    </a>
 
                 </div>
 
-
-                <button
-                    id="clearCompletedBtn"
-                    class="clear-btn"
-                    type="button">
-                    Clear Completed
-                </button>
-
             </div>
 
 
-            <div
-                id="taskList"
-                class="task-list"
-                aria-live="polite">
-            </div>
+            <div class="hero-card">
 
-
-            <div
-                id="emptyState"
-                class="empty-state">
-
-                <div class="empty-icon">✓</div>
-
-                <h3>No tasks yet</h3>
-
-                <p>
-                    Add your first task to get started.
-                </p>
-
-            </div>
-
-
-            <div class="task-footer">
-
-                <p id="taskCount">
-                    0 tasks remaining
-                </p>
-
-                <button
-                    id="clearAllBtn"
-                    class="clear-all-btn"
-                    type="button">
-                    Clear All
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="cta-section">
-
-    <div class="container">
-
-        <div class="cta">
-
-            <div>
-                <span class="eyebrow">Let's Connect</span>
+                <div class="hero-card-icon">
+                    AC
+                </div>
 
                 <h2>
-                    Have an idea or project in mind?
+                    Engineering + Technology
                 </h2>
 
                 <p>
-                    Feel free to get in touch with me.
+                    I enjoy combining engineering knowledge with programming
+                    to create practical, useful and user-focused digital projects.
                 </p>
+
             </div>
 
-            <a
-                href="contact.html"
-                class="btn btn-primary">
-                Contact Me
-            </a>
+        </div>
+    </section>
+
+
+    <!-- Welcome -->
+    <section class="section section-soft">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <h2>
+                    Welcome to My Portfolio
+                </h2>
+
+                <p>
+                    Explore my projects, technical skills, education and
+                    interests in engineering and technology.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        &lt;/&gt;
+                    </div>
+
+                    <h3>
+                        Web Development
+                    </h3>
+
+                    <p>
+                        Building responsive and user-friendly web applications
+                        using modern web technologies.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        Engineering
+                    </h3>
+
+                    <p>
+                        Developing a strong foundation in electrical engineering,
+                        mathematics and technical concepts.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        💡
+                    </div>
+
+                    <h3>
+                        Innovation
+                    </h3>
+
+                    <p>
+                        Turning ideas into practical digital solutions through
+                        experimentation, programming and problem-solving.
+                    </p>
+
+                </article>
+
+            </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+
+        <div class="container">
+
+            <div class="cta">
+
+                <div>
+                    <h2>
+                        Let's Build Something Useful
+                    </h2>
+
+                    <p>
+                        Explore my projects and learn more about my skills,
+                        education and technical interests.
+                    </p>
+                </div>
+
+                <a href="projects.html" class="btn btn-primary">
+                    Explore Projects
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </main>
 
 
 <footer class="site-footer">
-
     <div class="container footer-content">
-
-        <p>
-            This website is made by Ayush Chatterjee
-        </p>
-
-        <p>
-            © 2026. All rights reserved.
-        </p>
-
+        <p>This website is made by Ayush Chatterjee</p>
+        <p>© 2026. All rights reserved.</p>
     </div>
-
 </footer>
 
 
