@@ -1,231 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="Portfolio2 - Personal portfolio of Ayush Chatterjee, B.Tech Electrical Engineering student and web developer."
-    >
-
-    <title>Ayush Chatterjee | Portfolio</title>
-
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskMaster - To-Do List</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <h1>📋 TaskMaster</h1>
+            <p class="subtitle">Manage your tasks efficiently</p>
+        </header>
 
-<header class="site-header">
-    <div class="container nav-container">
+        <!-- Add Task Section -->
+        <div class="add-task-section">
+            <form id="taskForm">
+                <input 
+                    type="text" 
+                    id="taskInput" 
+                    placeholder="Add a new task..." 
+                    required
+                    autofocus
+                />
+                <button type="submit" id="addBtn">Add Task</button>
+            </form>
+        </div>
 
-        <a href="index.html" class="brand" aria-label="Ayush Chatterjee Home">
-            <span class="brand-logo">AC</span>
-            <span>Ayush Chatterjee</span>
-        </a>
+        <!-- Filter Tabs -->
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
 
-        <button
-            class="menu-toggle"
-            id="menuToggle"
-            type="button"
-            aria-label="Open navigation menu"
-            aria-expanded="false"
-            aria-controls="mainNav"
-        >
-            ☰
-        </button>
+        <!-- Task List -->
+        <div class="task-list-section">
+            <ul id="taskList"></ul>
+        </div>
 
-        <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-            <a href="index.html" class="active">Home</a>
-            <a href="about.html">About</a>
-            <a href="projects.html">Projects</a>
-            <a href="skills.html">Skills</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-
+        <!-- Footer -->
+        <div class="footer">
+            <span id="taskCount">0 tasks remaining</span>
+            <button id="clearCompleted">Clear Completed</button>
+        </div>
     </div>
-</header>
 
-
-<main>
-
-    <!-- Hero -->
-    <section class="hero-section">
-        <div class="container hero-grid">
-
-            <div class="hero-content">
-
-                <span class="eyebrow">
-                    B.Tech Student • Electrical Engineering
-                </span>
-
-                <h1>
-                    Hi, I'm <span>Ayush Chatterjee</span>
-                </h1>
-
-                <p>
-                    I am a first-year B.Tech student pursuing Electrical Engineering,
-                    with a strong interest in technology, web development, and
-                    innovative engineering solutions.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="projects.html" class="btn btn-primary">
-                        View Projects
-                    </a>
-
-                    <a href="contact.html" class="btn btn-secondary">
-                        Contact Me
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <div class="hero-card">
-
-                <div class="hero-card-icon">
-                    AC
-                </div>
-
-                <h2>
-                    Engineering + Technology
-                </h2>
-
-                <p>
-                    I enjoy combining engineering knowledge with programming
-                    to create practical, useful and user-focused digital projects.
-                </p>
-
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- Welcome -->
-    <section class="section section-soft">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <h2>
-                    Welcome to My Portfolio
-                </h2>
-
-                <p>
-                    Explore my projects, technical skills, education and
-                    interests in engineering and technology.
-                </p>
-
-            </div>
-
-
-            <div class="feature-grid">
-
-                <article class="feature-card">
-
-                    <div class="feature-icon">
-                        &lt;/&gt;
-                    </div>
-
-                    <h3>
-                        Web Development
-                    </h3>
-
-                    <p>
-                        Building responsive and user-friendly web applications
-                        using modern web technologies.
-                    </p>
-
-                </article>
-
-
-                <article class="feature-card">
-
-                    <div class="feature-icon">
-                        ⚡
-                    </div>
-
-                    <h3>
-                        Engineering
-                    </h3>
-
-                    <p>
-                        Developing a strong foundation in electrical engineering,
-                        mathematics and technical concepts.
-                    </p>
-
-                </article>
-
-
-                <article class="feature-card">
-
-                    <div class="feature-icon">
-                        💡
-                    </div>
-
-                    <h3>
-                        Innovation
-                    </h3>
-
-                    <p>
-                        Turning ideas into practical digital solutions through
-                        experimentation, programming and problem-solving.
-                    </p>
-
-                </article>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CTA -->
-    <section class="cta-section">
-
-        <div class="container">
-
-            <div class="cta">
-
-                <div>
-                    <h2>
-                        Let's Build Something Useful
-                    </h2>
-
-                    <p>
-                        Explore my projects and learn more about my skills,
-                        education and technical interests.
-                    </p>
-                </div>
-
-                <a href="projects.html" class="btn btn-primary">
-                    Explore Projects
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<footer class="site-footer">
-    <div class="container footer-content">
-        <p>This website is made by Ayush Chatterjee</p>
-        <p>© 2026. All rights reserved.</p>
-    </div>
-</footer>
-
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
