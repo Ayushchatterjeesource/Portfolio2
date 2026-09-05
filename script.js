@@ -1,347 +1,1177 @@
-// Application State
-let tasks = [];
-let currentFilter = 'all';
+/* ==========================================
+   Portfolio2
+   Navigation + Task Management
+   ========================================== */
 
-// DOM Elements
-const taskForm = document.getElementById('taskForm');
-const taskInput = document.getElementById('taskInput');
-const taskList = document.getElementById('taskList');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const taskCount = document.getElementById('taskCount');
-const clearCompletedBtn = document.getElementById('clearCompleted');
 
-// ==================== CRUD Operations ====================
+/* ==========================================
+   MOBILE NAVIGATION
+   ========================================== */
 
-// Create - Add new task
-function addTask(text) {
-    const task = {
-        id: Date.now(),
-        text: text.trim(),
-        completed: false,
-        createdAt: new Date().toISOString()
-    };
-    tasks.push(task);
-    saveToLocalStorage();
-    renderTasks();
-    taskInput.value = '';
-    taskInput.focus();
-}
+const menuToggle =
+    document.getElementById("menuToggle");
 
-// Read - Get all tasks
-function getTasks() {
-    return tasks;
-}
+const mainNav =
+    document.getElementById("mainNav");
 
-// Update - Edit task text
-function updateTask(id, newText) {
-    const task = tasks.find(t => t.id === id);
-    if (task) {
-        task.text = newText.trim();
-        saveToLocalStorage();
-        renderTasks();
-    }
-}
 
-// Update - Toggle task completion
-function toggleTaskCompletion(id) {
-    const task = tasks.find(t => t.id === id);
-    if (task) {
-        task.completed = !task.completed;
-        saveToLocalStorage();
-        renderTasks();
-    }
-}
+if (menuToggle && mainNav) {
 
-// Delete - Remove task
-function deleteTask(id) {
-    tasks = tasks.filter(t => t.id !== id);
-    saveToLocalStorage();
-    renderTasks();
-}
+    menuToggle.addEventListener(
+        "click",
+        () => {
 
-// Delete - Clear all completed tasks
-function clearCompletedTasks() {
-    tasks = tasks.filter(t => !t.completed);
-    saveToLocalStorage();
-    renderTasks();
-}
+            const isOpen =
+                mainNav.classList.toggle("open");
 
-// ==================== Filtering Logic ====================
+            menuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
 
-function getFilteredTasks() {
-    switch (currentFilter) {
-        case 'active':
-            return tasks.filter(t => !t.completed);
-        case 'completed':
-            return tasks.filter(t => t.completed);
-        default:
-            return tasks;
-    }
-}
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Close navigation menu"
+                    : "Open navigation menu"
+            );
 
-// ==================== Rendering ====================
-
-function renderTasks() {
-    const filteredTasks = getFilteredTasks();
-    
-    if (filteredTasks.length === 0) {
-        taskList.innerHTML = `
-            <div class="empty-state">
-                <span class="emoji">📭</span>
-                <p>No tasks ${currentFilter !== 'all' ? currentFilter : ''} found</p>
-            </div>
-        `;
-    } else {
-        taskList.innerHTML = filteredTasks.map(task => createTaskHTML(task)).join('');
-    }
-    
-    updateTaskCount();
-    updateClearButtonState();
-}
-
-function createTaskHTML(task) {
-    const isCompleted = task.completed ? 'completed' : '';
-    const isChecked = task.completed ? 'checked' : '';
-    
-    return `
-        <li class="task-item ${isCompleted}" data-id="${task.id}">
-            <input 
-                type="checkbox" 
-                class="task-checkbox" 
-                ${isChecked}
-                aria-label="Toggle task completion"
-            />
-            <span class="task-text">${escapeHtml(task.text)}</span>
-            <input 
-                type="text" 
-                class="edit-input" 
-                value="${escapeHtml(task.text)}"
-                aria-label="Edit task"
-            />
-            <div class="task-actions">
-                <button class="edit-btn" aria-label="Edit task">✏️</button>
-                <button class="save-edit-btn" aria-label="Save edit">💾</button>
-                <button class="delete-btn" aria-label="Delete task">🗑️</button>
-            </div>
-        </li>
-    `;
-}
-
-// Helper to escape HTML to prevent XSS
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// ==================== Event Handling (Delegated) ====================
-
-// Task List Event Delegation
-taskList.addEventListener('click', (e) => {
-    const taskItem = e.target.closest('.task-item');
-    if (!taskItem) return;
-    
-    const taskId = parseInt(taskItem.dataset.id);
-    
-    // Toggle completion
-    if (e.target.classList.contains('task-checkbox')) {
-        toggleTaskCompletion(taskId);
-        return;
-    }
-    
-    // Delete task
-    if (e.target.classList.contains('delete-btn')) {
-        if (confirm('Are you sure you want to delete this task?')) {
-            deleteTask(taskId);
         }
-        return;
-    }
-    
-    // Edit task - show edit mode
-    if (e.target.classList.contains('edit-btn')) {
-        enterEditMode(taskItem);
-        return;
-    }
-    
-    // Save edited task
-    if (e.target.classList.contains('save-edit-btn')) {
-        saveEditMode(taskItem, taskId);
-        return;
-    }
-});
+    );
 
-// Handle Enter key in edit input
-taskList.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        const taskItem = e.target.closest('.task-item');
-        if (!taskItem) return;
-        
-        const editInput = taskItem.querySelector('.edit-input');
-        if (editInput && editInput.classList.contains('active')) {
-            const taskId = parseInt(taskItem.dataset.id);
-            saveEditMode(taskItem, taskId);
+
+    mainNav
+        .querySelectorAll("a")
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    mainNav.classList.remove(
+                        "open"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-label",
+                        "Open navigation menu"
+                    );
+
+                }
+            );
+
+        });
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Escape") {
+
+                mainNav.classList.remove(
+                    "open"
+                );
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                menuToggle.setAttribute(
+                    "aria-label",
+                    "Open navigation menu"
+                );
+
+            }
+
         }
-    }
-    
-    if (e.key === 'Escape') {
-        const taskItem = e.target.closest('.task-item');
-        if (!taskItem) return;
-        cancelEditMode(taskItem);
-    }
-});
+    );
 
-function enterEditMode(taskItem) {
-    const taskText = taskItem.querySelector('.task-text');
-    const editInput = taskItem.querySelector('.edit-input');
-    const editBtn = taskItem.querySelector('.edit-btn');
-    const saveBtn = taskItem.querySelector('.save-edit-btn');
-    
-    taskText.classList.add('editing');
-    editInput.classList.add('active');
-    saveBtn.classList.add('active');
-    editBtn.style.display = 'none';
-    
-    editInput.focus();
-    editInput.select();
 }
 
-function saveEditMode(taskItem, taskId) {
-    const editInput = taskItem.querySelector('.edit-input');
-    const newText = editInput.value.trim();
-    
-    if (newText === '') {
-        alert('Task cannot be empty!');
-        return;
-    }
-    
-    updateTask(taskId, newText);
-    cancelEditMode(taskItem);
-}
 
-function cancelEditMode(taskItem) {
-    const taskText = taskItem.querySelector('.task-text');
-    const editInput = taskItem.querySelector('.edit-input');
-    const editBtn = taskItem.querySelector('.edit-btn');
-    const saveBtn = taskItem.querySelector('.save-edit-btn');
-    
-    taskText.classList.remove('editing');
-    editInput.classList.remove('active');
-    saveBtn.classList.remove('active');
-    editBtn.style.display = 'inline-block';
-}
+/* ==========================================
+   TO-DO / TASK APPLICATION
+   ========================================== */
 
-// ==================== Filter Handling ====================
+const taskInput =
+    document.getElementById("taskInput");
 
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Update active filter button
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // Update current filter
-        currentFilter = btn.dataset.filter;
-        renderTasks();
-    });
-});
+const addTaskBtn =
+    document.getElementById("addTaskBtn");
 
-// ==================== Task Count ====================
+const taskList =
+    document.getElementById("taskList");
 
-function updateTaskCount() {
-    const total = tasks.length;
-    const completed = tasks.filter(t => t.completed).length;
-    const remaining = total - completed;
-    
-    taskCount.textContent = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`;
-}
+const emptyState =
+    document.getElementById("emptyState");
 
-// ==================== Clear Completed Button ====================
+const taskCount =
+    document.getElementById("taskCount");
 
-function updateClearButtonState() {
-    const hasCompleted = tasks.some(t => t.completed);
-    clearCompletedBtn.disabled = !hasCompleted;
-}
+const clearCompletedBtn =
+    document.getElementById(
+        "clearCompletedBtn"
+    );
 
-clearCompletedBtn.addEventListener('click', () => {
-    if (tasks.some(t => t.completed)) {
-        if (confirm('Delete all completed tasks?')) {
-            clearCompletedTasks();
+const clearAllBtn =
+    document.getElementById(
+        "clearAllBtn"
+    );
+
+const filterButtons =
+    document.querySelectorAll(
+        ".filter-btn"
+    );
+
+
+/*
+    Task application only runs
+    when its elements exist.
+*/
+
+if (
+    taskInput &&
+    addTaskBtn &&
+    taskList &&
+    emptyState &&
+    taskCount &&
+    clearCompletedBtn &&
+    clearAllBtn
+) {
+
+
+    /* ======================================
+       STATE
+       ====================================== */
+
+    let tasks = [];
+
+    let currentFilter = "all";
+
+    const STORAGE_KEY =
+        "portfolio2-tasks";
+
+
+    /* ======================================
+       LOAD TASKS
+       ====================================== */
+
+    function loadTasks() {
+
+        const savedTasks =
+            window.localStorage.getItem(
+                STORAGE_KEY
+            );
+
+
+        if (!savedTasks) {
+
+            tasks = [];
+
+            return;
+
         }
-    }
-});
 
-// ==================== Form Submission ====================
 
-taskForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const text = taskInput.value.trim();
-    
-    if (text === '') {
-        alert('Please enter a task!');
-        return;
-    }
-    
-    addTask(text);
-});
+        try {
 
-// ==================== Local Storage ====================
+            const parsed =
+                JSON.parse(
+                    savedTasks
+                );
 
-function saveToLocalStorage() {
-    try {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    } catch (error) {
-        console.error('Error saving to localStorage:', error);
-    }
-}
 
-function loadFromLocalStorage() {
-    try {
-        const data = localStorage.getItem('tasks');
-        if (data) {
-            tasks = JSON.parse(data);
+            if (
+                Array.isArray(parsed)
+            ) {
+
+                tasks = parsed;
+
+            } else {
+
+                tasks = [];
+
+            }
+
+        } catch (error) {
+
+            tasks = [];
+
         }
-    } catch (error) {
-        console.error('Error loading from localStorage:', error);
-        tasks = [];
+
     }
-}
 
-// ==================== Initialization ====================
 
-function init() {
-    loadFromLocalStorage();
-    renderTasks();
-    
-    // Set initial filter
-    document.querySelector('.filter-btn[data-filter="all"]')?.classList.add('active');
-}
+    /* ======================================
+       SAVE TASKS
+       ====================================== */
 
-// Start the application
-init();
+    function saveTasks() {
 
-// ==================== Keyboard Shortcuts ====================
+        window.localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(tasks)
+        );
 
-document.addEventListener('keydown', (e) => {
-    // Ctrl+Shift+N or Cmd+Shift+N to focus input
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'N') {
-        e.preventDefault();
-        taskInput.focus();
     }
-});
 
-// ==================== Performance Optimization ====================
 
-// Debounce function for future use
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
+    /* ======================================
+       ADD TASK
+       ====================================== */
+
+    function addTask() {
+
+        const text =
+            taskInput.value.trim();
+
+
+        if (!text) {
+
+            taskInput.focus();
+
+            return;
+
+        }
+
+
+        const newTask = {
+
+            id:
+                Date.now() +
+                Math.random(),
+
+            text: text,
+
+            completed: false,
+
+            createdAt:
+                new Date().toISOString()
+
         };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
 
-console.log('📋 TaskMaster loaded successfully!');
-console.log(`📊 ${tasks.length} tasks loaded from localStorage`);
+
+        tasks.unshift(
+            newTask
+        );
+
+
+        saveTasks();
+
+        renderTasks();
+
+
+        taskInput.value = "";
+
+        taskInput.focus();
+
+    }
+
+
+    /* ======================================
+       FILTER TASKS
+       ====================================== */
+
+    function getFilteredTasks() {
+
+        if (
+            currentFilter === "active"
+        ) {
+
+            return tasks.filter(
+                task =>
+                    !task.completed
+            );
+
+        }
+
+
+        if (
+            currentFilter === "completed"
+        ) {
+
+            return tasks.filter(
+                task =>
+                    task.completed
+            );
+
+        }
+
+
+        return tasks;
+
+    }
+
+
+    /* ======================================
+       CREATE TASK ELEMENT
+       ====================================== */
+
+    function createTaskElement(task) {
+
+        const article =
+            document.createElement(
+                "article"
+            );
+
+
+        article.className =
+            "task-item";
+
+
+        if (task.completed) {
+
+            article.classList.add(
+                "completed"
+            );
+
+        }
+
+
+        article.dataset.id =
+            String(task.id);
+
+
+        /* CHECK BUTTON */
+
+        const checkButton =
+            document.createElement(
+                "button"
+            );
+
+
+        checkButton.type =
+            "button";
+
+
+        checkButton.className =
+            "task-check";
+
+
+        checkButton.dataset.action =
+            "toggle";
+
+
+        checkButton.setAttribute(
+            "aria-label",
+            task.completed
+                ? "Mark task as active"
+                : "Mark task as completed"
+        );
+
+
+        checkButton.textContent =
+            task.completed
+                ? "✓"
+                : "";
+
+
+        /* CONTENT */
+
+        const content =
+            document.createElement(
+                "div"
+            );
+
+
+        content.className =
+            "task-content";
+
+
+        /* TEXT */
+
+        const text =
+            document.createElement(
+                "p"
+            );
+
+
+        text.className =
+            "task-text";
+
+
+        text.textContent =
+            task.text;
+
+
+        /* ACTIONS */
+
+        const actions =
+            document.createElement(
+                "div"
+            );
+
+
+        actions.className =
+            "task-actions";
+
+
+        /* EDIT */
+
+        const editButton =
+            document.createElement(
+                "button"
+            );
+
+
+        editButton.type =
+            "button";
+
+
+        editButton.className =
+            "task-action";
+
+
+        editButton.dataset.action =
+            "edit";
+
+
+        editButton.textContent =
+            "Edit";
+
+
+        /* DELETE */
+
+        const deleteButton =
+            document.createElement(
+                "button"
+            );
+
+
+        deleteButton.type =
+            "button";
+
+
+        deleteButton.className =
+            "task-action delete";
+
+
+        deleteButton.dataset.action =
+            "delete";
+
+
+        deleteButton.textContent =
+            "Delete";
+
+
+        actions.appendChild(
+            editButton
+        );
+
+        actions.appendChild(
+            deleteButton
+        );
+
+
+        content.appendChild(
+            text
+        );
+
+        content.appendChild(
+            actions
+        );
+
+
+        article.appendChild(
+            checkButton
+        );
+
+        article.appendChild(
+            content
+        );
+
+
+        return article;
+
+    }
+
+
+    /* ======================================
+       RENDER TASKS
+       ====================================== */
+
+    function renderTasks() {
+
+        taskList.innerHTML = "";
+
+
+        const filteredTasks =
+            getFilteredTasks();
+
+
+        filteredTasks.forEach(
+            task => {
+
+                const taskElement =
+                    createTaskElement(
+                        task
+                    );
+
+
+                taskList.appendChild(
+                    taskElement
+                );
+
+            }
+        );
+
+
+        updateEmptyState(
+            filteredTasks
+        );
+
+
+        updateTaskCount();
+
+    }
+
+
+    /* ======================================
+       UPDATE TASK
+       ====================================== */
+
+    function updateTask(
+        id,
+        newText
+    ) {
+
+        const task =
+            tasks.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+
+        if (!task) {
+
+            return;
+
+        }
+
+
+        const cleanText =
+            newText.trim();
+
+
+        if (!cleanText) {
+
+            return;
+
+        }
+
+
+        task.text =
+            cleanText;
+
+
+        saveTasks();
+
+        renderTasks();
+
+    }
+
+
+    /* ======================================
+       TOGGLE COMPLETED
+       ====================================== */
+
+    function toggleTask(id) {
+
+        const task =
+            tasks.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+
+        if (!task) {
+
+            return;
+
+        }
+
+
+        task.completed =
+            !task.completed;
+
+
+        saveTasks();
+
+        renderTasks();
+
+    }
+
+
+    /* ======================================
+       DELETE TASK
+       ====================================== */
+
+    function deleteTask(id) {
+
+        tasks =
+            tasks.filter(
+                task =>
+                    String(task.id) !==
+                    String(id)
+            );
+
+
+        saveTasks();
+
+        renderTasks();
+
+    }
+
+
+    /* ======================================
+       EDIT TASK
+       ====================================== */
+
+    function editTask(
+        taskElement
+    ) {
+
+        const id =
+            taskElement.dataset.id;
+
+
+        const task =
+            tasks.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+
+        if (!task) {
+
+            return;
+
+        }
+
+
+        const content =
+            taskElement.querySelector(
+                ".task-content"
+            );
+
+
+        if (!content) {
+
+            return;
+
+        }
+
+
+        content.innerHTML = "";
+
+
+        /* INPUT */
+
+        const input =
+            document.createElement(
+                "input"
+            );
+
+
+        input.type =
+            "text";
+
+
+        input.className =
+            "task-edit-input";
+
+
+        input.value =
+            task.text;
+
+
+        input.maxLength =
+            150;
+
+
+        input.setAttribute(
+            "aria-label",
+            "Edit task"
+        );
+
+
+        /* ACTIONS */
+
+        const actions =
+            document.createElement(
+                "div"
+            );
+
+
+        actions.className =
+            "task-actions";
+
+
+        /* SAVE */
+
+        const saveButton =
+            document.createElement(
+                "button"
+            );
+
+
+        saveButton.type =
+            "button";
+
+
+        saveButton.className =
+            "task-action";
+
+
+        saveButton.dataset.action =
+            "save";
+
+
+        saveButton.textContent =
+            "Save";
+
+
+        /* CANCEL */
+
+        const cancelButton =
+            document.createElement(
+                "button"
+            );
+
+
+        cancelButton.type =
+            "button";
+
+
+        cancelButton.className =
+            "task-action";
+
+
+        cancelButton.dataset.action =
+            "cancel";
+
+
+        cancelButton.textContent =
+            "Cancel";
+
+
+        actions.appendChild(
+            saveButton
+        );
+
+        actions.appendChild(
+            cancelButton
+        );
+
+
+        content.appendChild(
+            input
+        );
+
+        content.appendChild(
+            actions
+        );
+
+
+        input.focus();
+
+        input.select();
+
+    }
+
+
+    /* ======================================
+       CLEAR COMPLETED
+       ====================================== */
+
+    function clearCompleted() {
+
+        tasks =
+            tasks.filter(
+                task =>
+                    !task.completed
+            );
+
+
+        saveTasks();
+
+        renderTasks();
+
+    }
+
+
+    /* ======================================
+       CLEAR ALL
+       ====================================== */
+
+    function clearAll() {
+
+        if (
+            tasks.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        tasks = [];
+
+
+        saveTasks();
+
+        renderTasks();
+
+    }
+
+
+    /* ======================================
+       FILTER
+       ====================================== */
+
+    function setFilter(
+        filter
+    ) {
+
+        currentFilter =
+            filter;
+
+
+        filterButtons.forEach(
+            button => {
+
+                const isActive =
+                    button.dataset.filter ===
+                    filter;
+
+
+                button.classList.toggle(
+                    "active",
+                    isActive
+                );
+
+
+                button.setAttribute(
+                    "aria-pressed",
+                    String(isActive)
+                );
+
+            }
+        );
+
+
+        renderTasks();
+
+    }
+
+
+    /* ======================================
+       EMPTY STATE
+       ====================================== */
+
+    function updateEmptyState(
+        filteredTasks
+    ) {
+
+        if (
+            filteredTasks.length ===
+            0
+        ) {
+
+            emptyState.style.display =
+                "block";
+
+        } else {
+
+            emptyState.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* ======================================
+       TASK COUNTER
+       ====================================== */
+
+    function updateTaskCount() {
+
+        const remaining =
+            tasks.filter(
+                task =>
+                    !task.completed
+            ).length;
+
+
+        if (
+            remaining === 1
+        ) {
+
+            taskCount.textContent =
+                "1 task remaining";
+
+        } else {
+
+            taskCount.textContent =
+                `${remaining} tasks remaining`;
+
+        }
+
+    }
+
+
+    /* ======================================
+       ADD BUTTON
+       ====================================== */
+
+    addTaskBtn.addEventListener(
+        "click",
+        addTask
+    );
+
+
+    /* ======================================
+       ENTER TO ADD
+       ====================================== */
+
+    taskInput.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                addTask();
+
+            }
+
+        }
+    );
+
+
+    /* ======================================
+       TASK CLICK EVENTS
+       ====================================== */
+
+    taskList.addEventListener(
+        "click",
+        event => {
+
+            const button =
+                event.target.closest(
+                    "button"
+                );
+
+
+            if (!button) {
+
+                return;
+
+            }
+
+
+            const taskElement =
+                button.closest(
+                    ".task-item"
+                );
+
+
+            if (!taskElement) {
+
+                return;
+
+            }
+
+
+            const id =
+                taskElement.dataset.id;
+
+
+            const action =
+                button.dataset.action;
+
+
+            if (
+                action === "toggle"
+            ) {
+
+                toggleTask(id);
+
+            }
+
+            else if (
+                action === "edit"
+            ) {
+
+                editTask(
+                    taskElement
+                );
+
+            }
+
+            else if (
+                action === "delete"
+            ) {
+
+                deleteTask(id);
+
+            }
+
+            else if (
+                action === "save"
+            ) {
+
+                const input =
+                    taskElement.querySelector(
+                        ".task-edit-input"
+                    );
+
+
+                if (input) {
+
+                    updateTask(
+                        id,
+                        input.value
+                    );
+
+                }
+
+            }
+
+            else if (
+                action === "cancel"
+            ) {
+
+                renderTasks();
+
+            }
+
+        }
+    );
+
+
+    /* ======================================
+       EDIT KEYBOARD EVENTS
+       ====================================== */
+
+    taskList.addEventListener(
+        "keydown",
+        event => {
+
+            const input =
+                event.target.closest(
+                    ".task-edit-input"
+                );
+
+
+            if (!input) {
+
+                return;
+
+            }
+
+
+            const taskElement =
+                input.closest(
+                    ".task-item"
+                );
+
+
+            if (!taskElement) {
+
+                return;
+
+            }
+
+
+            const id =
+                taskElement.dataset.id;
+
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                updateTask(
+                    id,
+                    input.value
+                );
+
+            }
+
+
+            else if (
+                event.key === "Escape"
+            ) {
+
+                renderTasks();
+
+            }
+
+        }
+    );
+
+
+    /* ======================================
+       FILTER EVENTS
+       ====================================== */
+
+    filterButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    setFilter(
+                        button.dataset.filter
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* ======================================
+       CLEAR BUTTONS
+       ====================================== */
+
+    clearCompletedBtn.addEventListener(
+        "click",
+        clearCompleted
+    );
+
+
+    clearAllBtn.addEventListener(
+        "click",
+        clearAll
+    );
+
+
+    /* ======================================
+       INITIALIZE
+       ====================================== */
+
+    loadTasks();
+
+    renderTasks();
+
+}
