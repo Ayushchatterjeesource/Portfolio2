@@ -5,170 +5,358 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Portfolio3 - A modern JavaScript To-Do List application by Ayush Chatterjee.">
+          content="Portfolio2 - Ayush Chatterjee's personal portfolio and JavaScript To-Do List application.">
     <meta name="author" content="Ayush Chatterjee">
+    <meta name="keywords"
+          content="Ayush Chatterjee, Electrical Engineering, Web Development, JavaScript, Portfolio">
 
-    <title>Portfolio3 — To-Do List | Ayush Chatterjee</title>
+    <title>Portfolio2 | Ayush Chatterjee</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header class="site-header">
-        <div class="container header-content">
+<header class="site-header">
+    <div class="container nav-container">
 
-            <a href="#" class="brand" aria-label="Portfolio3 home">
-                <span class="brand-logo">AC</span>
-                <span class="brand-name">Portfolio3</span>
+        <a href="index.html" class="brand" aria-label="Portfolio2 Home">
+            <span class="brand-logo">AC</span>
+            <span>Portfolio2</span>
+        </a>
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="mainNav">
+            ☰
+        </button>
+
+        <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+
+            <a href="index.html" class="active">Home</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html">Contact</a>
+
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+<section class="hero-section">
+
+    <div class="container hero-grid">
+
+        <div class="hero-content">
+
+            <span class="eyebrow">
+                B.Tech Student • Electrical Engineering
+            </span>
+
+            <h1>
+                Hello, I'm
+                <span>Ayush Chatterjee</span>
+            </h1>
+
+            <p>
+                I am a first-year B.Tech student passionate about
+                technology, web development, programming, and
+                innovative engineering solutions.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="projects.html" class="btn btn-primary">
+                    View My Projects
+                </a>
+
+                <a href="contact.html" class="btn btn-secondary">
+                    Contact Me
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="hero-card-icon">✓</div>
+
+            <h2>Build. Learn. Innovate.</h2>
+
+            <p>
+                Combining engineering knowledge with programming
+                to create practical and user-focused digital projects.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="eyebrow">Featured</span>
+
+            <h2>Welcome to My Portfolio</h2>
+
+            <p>
+                Explore my projects, technical skills and
+                interactive JavaScript application.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <article class="feature-card">
+
+                <div class="feature-icon">⌘</div>
+
+                <h3>Web Development</h3>
+
+                <p>
+                    Building responsive and user-friendly websites
+                    using modern web technologies.
+                </p>
+
+            </article>
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">⚡</div>
+
+                <h3>Engineering</h3>
+
+                <p>
+                    Combining Electrical Engineering concepts with
+                    programming and practical problem-solving.
+                </p>
+
+            </article>
+
+
+            <article class="feature-card">
+
+                <div class="feature-icon">✓</div>
+
+                <h3>Task Management</h3>
+
+                <p>
+                    Try the interactive To-Do List below, built using
+                    JavaScript DOM manipulation and localStorage.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Task 3 Application -->
+
+<section class="todo-section" aria-labelledby="todo-title">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="eyebrow">JavaScript Task Manager</span>
+
+            <h2 id="todo-title">My To-Do List</h2>
+
+            <p>
+                Create, organize and manage your daily tasks.
+                Your tasks are automatically saved in your browser.
+            </p>
+
+        </div>
+
+
+        <div class="todo-app">
+
+            <div class="task-input-area">
+
+                <label for="taskInput" class="sr-only">
+                    Enter a new task
+                </label>
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="What needs to be done?"
+                    maxlength="150"
+                    autocomplete="off">
+
+                <button
+                    id="addTaskBtn"
+                    type="button">
+                    <span>+</span>
+                    Add Task
+                </button>
+
+            </div>
+
+
+            <div class="task-toolbar">
+
+                <div
+                    class="filters"
+                    role="group"
+                    aria-label="Task filters">
+
+                    <button
+                        class="filter-btn active"
+                        data-filter="all"
+                        type="button"
+                        aria-pressed="true">
+                        All
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="active"
+                        type="button"
+                        aria-pressed="false">
+                        Active
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-filter="completed"
+                        type="button"
+                        aria-pressed="false">
+                        Completed
+                    </button>
+
+                </div>
+
+
+                <button
+                    id="clearCompletedBtn"
+                    class="clear-btn"
+                    type="button">
+                    Clear Completed
+                </button>
+
+            </div>
+
+
+            <div
+                id="taskList"
+                class="task-list"
+                aria-live="polite">
+            </div>
+
+
+            <div
+                id="emptyState"
+                class="empty-state">
+
+                <div class="empty-icon">✓</div>
+
+                <h3>No tasks yet</h3>
+
+                <p>
+                    Add your first task to get started.
+                </p>
+
+            </div>
+
+
+            <div class="task-footer">
+
+                <p id="taskCount">
+                    0 tasks remaining
+                </p>
+
+                <button
+                    id="clearAllBtn"
+                    class="clear-all-btn"
+                    type="button">
+                    Clear All
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta">
+
+            <div>
+                <span class="eyebrow">Let's Connect</span>
+
+                <h2>
+                    Have an idea or project in mind?
+                </h2>
+
+                <p>
+                    Feel free to get in touch with me.
+                </p>
+            </div>
+
+            <a
+                href="contact.html"
+                class="btn btn-primary">
+                Contact Me
             </a>
 
-            <div class="header-user">
-                <span>Ayush Chatterjee</span>
-                <small>B.Tech Student • Electrical Engineering</small>
-            </div>
-
         </div>
-    </header>
 
-    <main>
+    </div>
 
-        <section class="todo-section" aria-labelledby="todo-title">
+</section>
 
-            <div class="container">
+</main>
 
-                <div class="hero">
-                    <span class="eyebrow">JavaScript Task Manager</span>
 
-                    <h1 id="todo-title">My To-Do List</h1>
+<footer class="site-footer">
 
-                    <p>
-                        Create, organize and manage your daily tasks
-                        with a simple and powerful task manager.
-                    </p>
-                </div>
+    <div class="container footer-content">
 
-                <div class="todo-app">
+        <p>
+            This website is made by Ayush Chatterjee
+        </p>
 
-                    <div class="task-input-area">
+        <p>
+            © 2026. All rights reserved.
+        </p>
 
-                        <label for="taskInput" class="sr-only">
-                            Enter a new task
-                        </label>
+    </div>
 
-                        <input
-                            type="text"
-                            id="taskInput"
-                            placeholder="What needs to be done?"
-                            maxlength="150"
-                            autocomplete="off"
-                        >
+</footer>
 
-                        <button id="addTaskBtn" type="button">
-                            <span>+</span>
-                            Add Task
-                        </button>
 
-                    </div>
-
-                    <div class="task-toolbar">
-
-                        <div
-                            class="filters"
-                            role="group"
-                            aria-label="Task filters"
-                        >
-
-                            <button
-                                class="filter-btn active"
-                                data-filter="all"
-                                type="button"
-                                aria-pressed="true"
-                            >
-                                All
-                            </button>
-
-                            <button
-                                class="filter-btn"
-                                data-filter="active"
-                                type="button"
-                                aria-pressed="false"
-                            >
-                                Active
-                            </button>
-
-                            <button
-                                class="filter-btn"
-                                data-filter="completed"
-                                type="button"
-                                aria-pressed="false"
-                            >
-                                Completed
-                            </button>
-
-                        </div>
-
-                        <button
-                            id="clearCompletedBtn"
-                            class="clear-btn"
-                            type="button"
-                        >
-                            Clear Completed
-                        </button>
-
-                    </div>
-
-                    <div
-                        id="taskList"
-                        class="task-list"
-                        aria-live="polite"
-                    ></div>
-
-                    <div id="emptyState" class="empty-state">
-
-                        <div class="empty-icon">✓</div>
-
-                        <h2>No tasks yet</h2>
-
-                        <p>Add your first task to get started.</p>
-
-                    </div>
-
-                    <div class="task-footer">
-
-                        <p id="taskCount">
-                            0 tasks remaining
-                        </p>
-
-                        <button
-                            id="clearAllBtn"
-                            class="clear-all-btn"
-                            type="button"
-                        >
-                            Clear All
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <footer class="site-footer">
-        <div class="container footer-content">
-
-            <p>This website is made by Ayush Chatterjee</p>
-
-            <p>© 2026. All rights reserved.</p>
-
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
